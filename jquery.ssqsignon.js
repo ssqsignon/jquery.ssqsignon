@@ -41,7 +41,7 @@
             ssoMaster: {
                 safeRedirect: function(denyAccess) {
                     return $.Deferred(function(def) {
-                        $.ajax([ apiEndpoint, module, 'saferedirect' ].join('/'), { data: { response_type: 'code', client_id: location('client_id'), redirect_uri: location('redirect_uri'), scope: location('scope'), state: location('state'), deny_access: denyAccess }, headers: { Authorization: ['bearer', accessToken()].join(' ') } })
+                        $.ajax([ apiEndpoint, module, 'saferedirect' ].join('/'), { data: { response_type: 'code', client_id: queryString('client_id'), redirect_uri: queryString('redirect_uri'), scope: queryString('scope'), state: queryString('state'), deny_access: denyAccess }, headers: { Authorization: ['bearer', accessToken()].join(' ') } })
                             .success(function(data) {
                                 def.resolve(data.redirect_uri);
                             })
@@ -214,7 +214,7 @@
             }
         }
 
-        function location(key) {
+        function queryString(key) {
             key = key.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
             var regex = new RegExp("[\\?&]" + key + "=([^&#]*)"),
                 results = regex.exec(location.search);
