@@ -65,7 +65,7 @@
 
                 consumeAuthorizationCode: function(code, redirectUri) {
                     return $.Deferred(function (def) {
-                        $.post(authUrl, { client_id: client, grant_type: 'authorization_code', redirect_uri: redirectUri, code: code })
+                        $.post(authUrl, { client_id: client, grant_type: 'authorization_code', redirect_uri: redirectUri, code: code }, null, 'json')
                             .success(function (data) {
                                 def.resolve({ userId: data.user_id, scope: data.scope, accessToken: data.access_token, refreshToken: data.refresh_token });
                             })
