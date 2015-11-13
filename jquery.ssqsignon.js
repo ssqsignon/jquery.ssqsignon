@@ -43,7 +43,7 @@
                     return $.Deferred(function(def) {
                         $.ajax([ apiEndpoint, module, 'saferedirect' ].join('/'), { data: { response_type: 'code', client_id: queryString('client_id'), redirect_uri: queryString('redirect_uri'), scope: queryString('scope'), state: queryString('state'), deny_access: denyAccess }, headers: { Authorization: ['bearer', accessToken()].join(' ') } })
                             .success(function(data) {
-                                def.resolve(data.redirect_uri);
+                                def.resolve(JSON.parse(data).redirect_uri);
                             })
                             .error(function (data, status) {
                                 def.reject({ data: data, status: status });
