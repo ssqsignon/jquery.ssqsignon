@@ -75,7 +75,7 @@
                     })
                         .then(function(accessInfo) {
                             storeTokens(accessInfo);
-                            return whoAmI();
+                            return askWhoAmI();
                         });
                 }
             },
