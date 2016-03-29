@@ -222,4 +222,8 @@
         }
     }
 
+    $.authenticator.proxy = function(url, customStore) {
+        return $.authenticator(undefined, undefined, undefined, customStore, url);
+    }
+
 })(jQuery);
