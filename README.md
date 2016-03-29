@@ -15,13 +15,23 @@ SSQ signon authorization helper for jQuery.
 
 ## Usage
 
-### Initialze the authentication helper
+### Initialze the authentication helper (direct)
 
-with your *SSQ signon* module name and client Id.
+with your *SSQ signon* authorization server name and App Id if you want your app to 
+talk directly to [https://ssqsignon.com](ssqsignon.com).
 
     $(document).ready(function() {
     
-        var authenticator = $.authenticator('your-module-name', 1234);
+        var authenticator = $.authenticator('your-server-name', 'your-app-id');
+    });
+    
+### Initialize the authentication helper (proxy)
+
+with a url if your want requests to *SSQ signon* to go through your backend.
+
+    $(document).ready(function() {
+    
+        var authenticator = $.authenticator.proxy('/auth');
     });
     
 ### Log in with a username and password
@@ -70,16 +80,16 @@ the stored refresh token for a new access token (and a new refresh token), and r
     var authenticator = $.authenticator('your-module-name', 1234)
         .autoRefreshAccessToken();
 
-### Single Sign On (master web app)
+### Single Sign On (Master app)
 
-#### Safely redirect back to the slave app with the user's authorization code
+#### Safely redirect back to the Slave app with the user's authorization code
 
     $.Deferred(function askAboutAccess(def) { ... })
       .then(function(denyAccess) {
         authenticator.ssoMaster.safeRedirect(denyAccess);
       });
 
-### Single Sign On (slave web app)
+### Single Sign On (Slave app)
 
 #### Redirect to the master app for log in
 
@@ -119,6 +129,17 @@ Initializes and returns `authenticator` (the authentication helper).
         - `get(name)` - returns the value stored under *name*.
         - `remove(name)` - clear the value stored under *name*.
     - `customAPIendpoint` (url) - the URL address to use in case all requests to *SSQ signon* should be directed through a proxy.
+    
+#### `$.authenticator.proxy(url, customStore)`
+
+Initializes the authentication helper for communication with SSQ singon via a proxy.
+
+- Arguments:
+    - `url` (url) - the URL address of the proxy.
+    - `customStore` (object) - An interface to use for storing access tokens instead of the browser's local storage. The passed object should expose three methods:
+        - `set(name, value)` - store a value under *name*.
+        - `get(name)` - returns the value stored under *name*.
+        - `remove(name)` - clear the value stored under *name*.
 
 ### `authenticator` methods
 
